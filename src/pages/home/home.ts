@@ -9,7 +9,8 @@ import { ChangeDetectorRef } from '@angular/core';
   templateUrl: 'home.html'
 })
 export class HomePage {
-  matches: String[];
+  //matches: String[];
+  msg:string;
   isRecording = false;
  
   constructor(public navCtrl: NavController, private speechRecognition: SpeechRecognition, private plt: Platform, private cd: ChangeDetectorRef) { }
@@ -34,7 +35,7 @@ export class HomePage {
   }
  
   comandoDeVoz(){
-    this.matches = "";
+    this.msg = "";
     this.speechRecognition.isRecognitionAvailable().then((available: boolean) => {
       if(available){
         this.speechRecognition.hasPermission().then((hasPermission: boolean) => {
@@ -42,13 +43,7 @@ export class HomePage {
             this.speechRecognition.startListening({language:'pt-BR'}).subscribe(
                 (matches: Array<string>) => {
                   for(let item of matches){
-                    this.matches += item + ' ';
-                  }
-                  if(matches[0] == "tirar foto"){
-                    this.abreCamera();
-                  }
-                  if(matches[0] == "abrir mapa"){
-                    this.abreMapa();
+                    this.msg += item + ' ';
                   }
                 },
                 (onerror) => alert('Erro: ' + onerror)
@@ -59,13 +54,13 @@ export class HomePage {
                   this.comandoDeVoz();
                 },
                 () => {
-                  this.matches = "Você negou a permissão para comando de voz.";
+                  this.msg = "Você negou a permissão para comando de voz.";
                 }
               )
           }
         })
       }else{
-        this.matches = "Recurso de comando não está disponível.";
+        this.msg = "Recurso de comando não está disponível.";
       }
     });
   }
