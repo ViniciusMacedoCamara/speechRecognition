@@ -33,15 +33,41 @@ export class HomePage {
       });
   }
  
-  startListening() {
-    let options = {
-      language: 'en-US'
-    }
-    this.speechRecognition.startListening().subscribe(matches => {
-      this.matches = matches;
-      this.cd.detectChanges();
+  comandoDeVoz(){
+    this.matches = "";
+    this.speechRecognition.isRecognitionAvailable().then((available: boolean) => {
+      if(available){
+        this.speechRecognition.hasPermission().then((hasPermission: boolean) => {
+          if(hasPermission){
+            this.speechRecognition.startListening({language:'pt-BR'}).subscribe(
+                (matches: Array<string>) => {
+                  for(let item of matches){
+                    this.matches += item + ' ';
+                  }
+                  if(matches[0] == "tirar foto"){
+                    this.abreCamera();
+                  }
+                  if(matches[0] == "abrir mapa"){
+                    this.abreMapa();
+                  }
+                },
+                (onerror) => alert('Erro: ' + onerror)
+              );
+          }else{
+            this.speechRecognition.requestPermission().then(
+                () => {
+                  this.comandoDeVoz();
+                },
+                () => {
+                  this.matches = "Você negou a permissão para comando de voz.";
+                }
+              )
+          }
+        })
+      }else{
+        this.matches = "Recurso de comando não está disponível.";
+      }
     });
-    this.isRecording = true;
   }
  
 }
