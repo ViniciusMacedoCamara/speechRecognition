@@ -1,25 +1,25 @@
 <ion-header>
   <ion-navbar [color]="isRecording ? 'danger' : 'primary'">
     <ion-title>
-      Listen to Me
+      Projeto Vini
     </ion-title>
   </ion-navbar>
 </ion-header>
  
 <ion-content padding>
-  <button ion-button full (click)="getPermission()">Get Permission</button>
-  <button ion-button full (click)="startListening()">Start Listening</button>
-  <button ion-button full (click)="stopListening()" *ngIf="isIos()">Stop Listening</button>
-  <button (click)="comandoDeVoz()" ion-button block>Comando de Voz</button>
+  <button ion-button full (click)="getPermission()">Pedir Permissao</button>
+  <button ion-button full (click)="startListening()">Ouvir</button>
+  <button ion-button full (click)="stopListening()" *ngIf="isIos()">Parar de ouvir</button>
+  <!-- <button (click)="comandoDeVoz()" ion-button block>Comando de Voz</button> -->
  
   <ion-card>
-    <ion-card-header>This is what I understood...</ion-card-header>
+    <ion-card-header>Isso foi o que eu entendi...</ion-card-header>
     <ion-card-content>
       <ion-list>
-<!--         <ion-item *ngFor="let match of matches">
+        <ion-item *ngFor="let match of matches">
           {{ match }}
-        </ion-item> -->
-        <p>{{msg}}</p>
+        </ion-item>
+        <!-- <p>{{msg}}</p> -->
       </ion-list>
     </ion-card-content>
   </ion-card>
